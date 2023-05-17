@@ -1,0 +1,23 @@
+Notes on Data and Plots
+------------------------
+- The main source file used to generate data is `ns-3.37/scratch/nms-ml.cc`
+- The data generated from our experiments can be found in `ns-3.37/data`
+- The corresponding plots are found in `ns-3.37/plots`
+
+How to Generate the Plots
+-------------------------
+- To change the plots, certain parameters have to be changed in the source file:
+    - Line 108: Bottleneck buffer size
+    - Lines 132, 133: Bottleneck buffer bandwidth/delay
+    - Lines 136, 137: Receiver links' bandwidth/delay
+    - Lines 139-143: BBR, Cubic links' bandwidths/delays
+- To introduce delays to the connections, lines 231, 252 must be changed
+- Alterations to the core of BBR can be done in ns-3.37/src/internet/model/tcp-bbr.cc and the
+  corresponding header file in the same directory.
+- Once the appropriate conditions have been set up, perform a clean build of ns3 and run the
+  main source file to generate data and use gnuplot to generate the appropriate graphs.
+
+Note: We have experienced some faulty scenarios under which simply changing
+the default TCP congestion control algorithm using `Config::SetDefault` does
+not seem to work, so all connections end up using Cubic. In this case, the connections 
+will have to be setup using TCP sockets, and then connect and send packets. 
